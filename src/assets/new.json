@@ -1,0 +1,88 @@
+[ 
+{
+    "nombre_imagen": "svchost.exe",
+    "estado": "Unknown",
+    "uso_memoria": "04.664 KB",
+    "tiempo_CPU": "0",
+    "PID": "01724",
+    "nombre_usuario": "N\/D",
+    "nombre_sesion": "Services",
+    "numero_sesion": "00",
+    "titulo_ventana": "N\/D"
+},
+{
+    "nombre_imagen": "svchost.exe",
+    "estado": "Unknown",
+    "uso_memoria": "05.012 KB",
+    "tiempo_CPU": "0",
+    "PID": "01844",
+    "nombre_usuario": "N\/D",
+    "nombre_sesion": "Services",
+    "numero_sesion": "00",
+    "titulo_ventana": "N\/D"
+},
+{
+    "nombre_imagen": "svchost.exe",
+    "estado": "Unknown",
+    "uso_memoria": "010.076 KB",
+    "tiempo_CPU": "0",
+    "PID": "01932",
+    "nombre_usuario": "N\/D",
+    "nombre_sesion": "Services",
+    "numero_sesion": "00",
+    "titulo_ventana": "N\/D"
+},
+{
+    "nombre_imagen": "svchost.exe",
+    "estado": "Unknown",
+    "uso_memoria": "04.184 KB",
+    "tiempo_CPU": "0",
+    "PID": "02004",
+    "nombre_usuario": "N\/D",
+    "nombre_sesion": "Services",
+    "numero_sesion": "00",
+    "titulo_ventana": "N\/D"
+}, {
+    "nombre_imagen": "Code.exe",
+    "estado": "Unknown",
+    "uso_memoria": "0227.772 KB",
+    "tiempo_CPU": "0",
+    "PID": "011816",
+    "nombre_usuario": "DESKTOP-HM7JGPM\\ASUS",
+    "nombre_sesion": "Console",
+    "numero_sesion": "015",
+    "titulo_ventana": "N\/D"
+},
+{
+    "nombre_imagen": "Code.exe",
+    "estado": "Unknown",
+    "uso_memoria": "091.264 KB",
+    "tiempo_CPU": "0",
+    "PID": "010304",
+    "nombre_usuario": "DESKTOP-HM7JGPM\\ASUS",
+    "nombre_sesion": "Console",
+    "numero_sesion": "015",
+    "titulo_ventana": "N\/D"
+},
+{
+    "nombre_imagen": "Code.exe",
+    "estado": "Unknown",
+    "uso_memoria": "066.664 KB",
+    "tiempo_CPU": "0",
+    "PID": "02708",
+    "nombre_usuario": "DESKTOP-HM7JGPM\\ASUS",
+    "nombre_sesion": "Console",
+    "numero_sesion": "015",
+    "titulo_ventana": "N\/D"
+},
+{
+    "nombre_imagen": "Code.exe",
+    "estado": "Unknown",
+    "uso_memoria": "0124.584 KB",
+    "tiempo_CPU": "0",
+    "PID": "09164",
+    "nombre_usuario": "DESKTOP-HM7JGPM\\ASUS",
+    "nombre_sesion": "Console",
+    "numero_sesion": "015",
+    "titulo_ventana": "N\/D"
+}]

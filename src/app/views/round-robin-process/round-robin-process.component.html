@@ -1,0 +1,74 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <p>Tabla de procesos</p>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">PID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Nombre sesión</th>
+            <th scope="col">Tiempo CPU</th>
+            <th scope="col">Tiempo Ráfaga</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">2</th>
+            <td></td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-success" (click)="getList()">
+        Mostar procesos
+      </button>
+    </div>
+
+    <div class="col">
+      <button class="btn btn-danger">Detener</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <p>Listos</p>
+
+      <div *ngFor="let item of ready">
+        <p>{{ item.PID }}</p>
+      </div>
+    </div>
+
+    <div class="col">
+      <p>En espera</p>
+      <div *ngFor="let item1 of keep">
+        <p>{{ item1.PID }}</p>
+      </div>
+    </div>
+
+    <div class="col">
+      <p>Ejecución</p>
+      <div *ngFor="let item2 of Execution">
+        <p>{{ item2.PID }}</p>
+      </div>
+    </div>
+
+    <div class="col">
+      <p>Ejecución</p>
+      <div *ngFor="let item2 of End">
+        <p>{{ item2.PID }}</p>
+      </div>
+    </div>
+  </div>
+</div>
