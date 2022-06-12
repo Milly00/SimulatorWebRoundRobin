@@ -68,7 +68,7 @@ export class RoundRobinProcessComponent implements OnInit {
    *  hace referencia al array listos 
    */
   listos: Initial[] = [];
-  private local: Initial[] = [];
+  espera: Initial[] = [];
   ejecucion: Initial = {
     process: "",
     tr: 0
@@ -93,7 +93,7 @@ export class RoundRobinProcessComponent implements OnInit {
   //Obtiene la lista de proceso
   async getProcess() {
     this.listProcess = await this.connectionD.getProcess(this.itemS);
-    
+
     this.createTableProcess();
   }
   //Construye la tabla de los procesos con la rafaga --> sin emular
@@ -116,34 +116,37 @@ export class RoundRobinProcessComponent implements OnInit {
   //Iniciar proceso
   async run() {
     let q = Number(this.quatum);
-    let espera: Initial[] = [];
-    let i = 0;
+    let ejt: Initial = {
+      process: "",
+      tr: 0
+    };
     let interval = setInterval(() => {
       let dele = this.listos.shift();
-      this.ejecucion.process = dele?.process + "";
-      this.ejecucion.tr = Number(dele?.tr)
+      ejt.process = dele?.process + "";
+      ejt.tr = Number(dele?.tr)
 
-      if (this.ejecucion.tr < q) {
-        q = this.ejecucion.tr;
+      if (ejt.tr < q) {
+        q = ejt.tr;
       }
-      if ((this.ejecucion.tr - q) <= 0) {
+      if ((ejt.tr - q) <= 0) {
         this.terminados.push({
-          process: this.ejecucion.process,
+          process: ejt.process,
           tr: 0
         });
       }
-      if ((this.ejecucion.tr - q) > 0) {
-        espera.push({
-          process: this.ejecucion.process,
-          tr: this.ejecucion.tr - q
+      if ((ejt.tr - q) > 0) {
+        this.espera.push({
+          process: ejt.process,
+          tr: ejt.tr - q
         });
+        this.ejecucion.process = dele?.process + "";
+        this.ejecucion.tr = Number(dele?.tr) - q
       }
-      if (this.listos.length==0) {
-        console.log("aaaaaaaa");
-        
-        this.listos = espera;
-        espera =[];
-        this.ejecucion.process =  "";
+      if (this.listos.length == 0) {
+
+        this.listos = this.espera;
+        this.espera = [];
+        this.ejecucion.process = "";
         this.ejecucion.tr = 0;
       }
       this.totalRafaga = this.totalRafaga - q;

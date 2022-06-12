@@ -7,7 +7,7 @@
 </div>
 <br>
 <h6>Procesos iniciales</h6>
-<div class="styleTable">
+<!-- <div class="styleTable">
   <table class="table">
     <tr>
       <td>Proceso</td>
@@ -19,7 +19,7 @@
     </tr>
   </table>
 </div>
-<br>
+<br> -->
 <input [(ngModel)]="quatum" placeholder="  Indique el quatum" class="entrada" type="number" name="" id="">
 
 <div class="btn" (click)="run()"> Iniciar</div>
@@ -27,41 +27,37 @@
 
 <div class="container">
   <div class="row">
-    <div class="col styleTable">
-      <table class="table">
-        <tr>
-          <td>Proceso</td>
-          <td>Rafaga</td>
-        </tr>
-        <tr *ngFor="let item of listos">
-          <td>{{item.process}}</td>
-          <td>{{item.tr}}</td>
-        </tr>
-      </table>
+    <div class="col">
+      <h6>Listos</h6>
+
+      <div class="process" *ngFor="let item of listos">
+        <h5>Proceso: {{item.process}}</h5>
+        <h6>Rafaga: {{item.tr}}</h6>
+      </div>
     </div>
-    <div class="col styleTable">
-      <table class="table">
-        <tr>
-          <td>Proceso</td>
-          <td>Rafaga</td>
-        </tr>
-        <tr >
-          <td>{{ejecucion.process}}</td>
-          <td>{{ejecucion.tr}}</td>
-        </tr>
-      </table>
+    <div class="col">
+      <h6>Ejecución</h6>
+      <div class="process" *ngIf="ejecucion.process.length>0; else h " >
+        <h5 >Proceso:{{ejecucion.process}}</h5>
+        <h6>Rafaga: {{ejecucion.tr}}</h6>
+      </div>
+      <ng-template #h><div class="process"> Sin actividad</div></ng-template>
     </div>
-    <div class="col styleTable">
-      <table class="table">
-        <tr>
-          <td>Proceso</td>
-          <td>Rafaga</td>
-        </tr>
-        <tr *ngFor="let item of terminados">
-          <td>{{item.process}}</td>
-          <td>{{item.tr}}</td>
-        </tr>
-      </table>
+    <div class="col">
+      <h6>Terminados</h6>
+      <div class="process" *ngFor="let item of terminados">
+        <h5>Proceso: {{item.process}}</h5>
+        <h6>Rafaga: {{item.tr}}</h6>
+      </div>
+    </div>
+    <div class="col">
+      <h6>Espera</h6>
+      <div class="process" *ngFor="let item of espera">
+
+        <h5>Proceso: {{item.process}}</h5>
+        <h6>Rafaga: {{item.tr}}</h6>
+      </div>
+
     </div>
   </div>
 </div>
