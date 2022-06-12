@@ -54,7 +54,7 @@ export class SimulationService {
 
       this.timeTotal = this.timeTotal + newObj.tiempo_rafaga;
       this.pushReady(newObj);
-      console.log(newObj);
+      // console.log(newObj);
 
 
     });
@@ -66,7 +66,7 @@ export class SimulationService {
   }
 
   getTableProcess() {
-    console.log(this.processReady);
+    // console.log(this.processReady);
   }
 
 
@@ -89,20 +89,14 @@ export class SimulationService {
         //Nos aseguramos de agregar el primer elemento del array de listos
         //a ejecución
         if (contEx === 0 || this.firstElement === false) {
-
-
           element = this.processReady.shift();//Capturamos el primer proceso de listos
-
           if (element.tiempo_rafaga < this.quamtum) {
             this.quamtum = element.tiempo_rafaga;
-
           }
           //Verificamos que el proceso tenga info
           if (element !== undefined) {
-
             //Asignamos el proceso a ajecución
             this.pushExecution(element);
-
             //Decimos que ya hay un elemento en ejecución
             if (this.processExecution.length > 0) {
               this.firstElement = true;

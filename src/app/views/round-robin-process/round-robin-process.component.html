@@ -1,4 +1,71 @@
-<div class="card">
+<div>
+  <select class="drop" [(ngModel)]="selected.value" (change)="changeItem($event)">
+    <option class="itemDrop" [value]="item.value" *ngFor="let item of lista">{{item.name}}</option>
+  </select>
+  <input [(ngModel)]="text" placeholder="  Ingrese TH" class="entrada" type="number" name="" id="">
+  <div class="btn" (click)="getProcess()"> Listar</div>
+</div>
+<br>
+<h6>Procesos iniciales</h6>
+<div class="styleTable">
+  <table class="table">
+    <tr>
+      <td>Proceso</td>
+      <td>Rafaga</td>
+    </tr>
+    <tr *ngFor="let item of initial">
+      <td>{{item.process}}</td>
+      <td>{{item.tr}}</td>
+    </tr>
+  </table>
+</div>
+<br>
+<input [(ngModel)]="quatum" placeholder="  Indique el quatum" class="entrada" type="number" name="" id="">
+
+<div class="btn" (click)="run()"> Iniciar</div>
+<h6>Procesos en sinulación</h6>
+
+<div class="container">
+  <div class="row">
+    <div class="col styleTable">
+      <table class="table">
+        <tr>
+          <td>Proceso</td>
+          <td>Rafaga</td>
+        </tr>
+        <tr *ngFor="let item of listos">
+          <td>{{item.process}}</td>
+          <td>{{item.tr}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="col styleTable">
+      <table class="table">
+        <tr>
+          <td>Proceso</td>
+          <td>Rafaga</td>
+        </tr>
+        <tr >
+          <td>{{ejecucion.process}}</td>
+          <td>{{ejecucion.tr}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="col styleTable">
+      <table class="table">
+        <tr>
+          <td>Proceso</td>
+          <td>Rafaga</td>
+        </tr>
+        <tr *ngFor="let item of terminados">
+          <td>{{item.process}}</td>
+          <td>{{item.tr}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- <div class="card">
   <div class="card-body">
     <div class="row">
       <p>Tabla de procesos</p>
@@ -71,4 +138,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

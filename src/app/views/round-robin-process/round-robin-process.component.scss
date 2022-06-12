@@ -1,3 +1,45 @@
 .row {
   margin: 1rem;
 }
+
+.drop {
+  margin-top: 1rem;
+  margin-left: 1rem;
+  padding: 5px;
+  border-radius: 5px;
+  width: 30%;
+  cursor: pointer;
+  color: white;
+  box-shadow: 1px 2px 0px 0px gray;
+  background-color: #3364FF;
+}
+
+.itemDrop {
+  color: white;
+  background-color: #33DDFF;
+}
+
+.btn {
+  margin-left: 1rem;
+  width: 20%;
+  text-align: center;
+  border-radius: 5px;
+
+  align-items: flex-end;
+  border: #3364FF solid;
+}
+
+.entrada {
+  margin-left: 1rem;
+  border: #3364FF solid;
+  border-radius: 5px;
+}
+.styleTable{
+  width: 40%;
+  height: 200px;
+  border: #3364FF solid;
+  padding: 5px;
+  margin-left: 1rem;
+  overflow:scroll;
+  border-radius: 5px;
+}
