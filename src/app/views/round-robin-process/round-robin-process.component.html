@@ -1,83 +1,152 @@
 <div class="card">
-  <div class="row">
-    <div class="col">
-      <button class="btn btn-success" (click)="getList()">Iniciar</button>
-    </div>
+  <div class="card-body">
+    <form>
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill">
+            <mat-label>Opción</mat-label>
+            <mat-select [formControl]="selectFormControl">
+              <mat-option
+                *ngFor="let i of options"
+                [value]="i.value"
+                (onSelectionChange)="getValue($event)"
+              >
+                {{ i.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
+        <div class="col">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>TH</mat-label>
+            <input
+              type="number"
+              matInput
+              [formControl]="thFormControl"
+              placeholder="Ex. 1"
+            />
+          </mat-form-field>
+        </div>
+
+        <div class="col">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Quamtum</mat-label>
+            <input
+              type="number"
+              matInput
+              [formControl]="quamtumFormControl"
+              placeholder="Ex. 1"
+            />
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <div class="col">
+            <button class="btn btn-dark" (click)="getDatos()">Aplicar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<mat-tab-group mat-align-tabs="center">
+  <mat-tab label="Simulador"
+    ><div class="card">
+      <div class="row">
+        <div class="col">
+          <button
+            [disabled]="!activedButton"
+            class="btn btn-success"
+            (click)="getList()"
+          >
+            Iniciar
+          </button>
+        </div>
+
+        <!--
     <div class="col">
       <button (click)="showTable()" class="btn btn-info">
         Mostrar tabla de procesos
       </button>
-    </div>
+    </div>-->
 
-    <div class="col">
-      <button (click)="pause()" class="btn btn-danger">Detener</button>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <p>Listos</p>
-
-      <div *ngFor="let item of ready">
-        <p>{{ item.PID }}</p>
+        <!--
+        <div class="col">
+          <button (click)="pause()" class="btn btn-danger">Detener</button>
+        </div>-->
       </div>
-    </div>
 
-    <div class="col">
-      <p>En espera</p>
-      <div *ngFor="let item1 of keep">
-        <p>{{ item1.PID }}</p>
+      <div class="row">
+        <div class="col">
+          <p>Listos</p>
+
+          <div *ngFor="let item of ready">
+            <p>{{ item.id }}</p>
+          </div>
+        </div>
+
+        <div class="col">
+          <p>En espera</p>
+          <div *ngFor="let item1 of keep">
+            <p>{{ item1.id }}</p>
+          </div>
+        </div>
+
+        <div class="col">
+          <p>Ejecución</p>
+          <div *ngFor="let item2 of Execution">
+            <p>{{ item2.id }}</p>
+          </div>
+        </div>
+
+        <div class="col">
+          <p>Ejecución</p>
+          <div *ngFor="let item2 of End">
+            <p>{{ item2.id }}</p>
+          </div>
+        </div>
       </div>
-    </div>
+    </div></mat-tab
+  >
+  <mat-tab label="Tabla de procesos"
+    ><div class="card">
+      <div class="card-body">
+        <div class="row">
+          <p>Tabla de procesos</p>
 
-    <div class="col">
-      <p>Ejecución</p>
-      <div *ngFor="let item2 of Execution">
-        <p>{{ item2.PID }}</p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">id</th>
+
+                <th scope="col">Nombre</th>
+                <th scope="col">Tiempo llegada</th>
+                <th scope="col">Tiempo ráfaga</th>
+                <th scope="col">Quamtum</th>
+
+                <th scope="col">Retorno</th>
+                <th scope="col">Tiempo finzalización</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of table; let i = index">
+                <th scope="row">{{ i }}</th>
+                <td>{{ item.id }}</td>
+                <td>{{ item.nombre_imagen }}</td>
+
+                <td>{{ item.tiempo_llegada }}</td>
+                <td>{{ item.tiempo_rafaga }}</td>
+                <td>{{ item.quamtum }}</td>
+
+                <td>{{ item.retorno }}</td>
+                <td>{{ item.tiempo_finalizacion }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-
-    <div class="col">
-      <p>Ejecución</p>
-      <div *ngFor="let item2 of End">
-        <p>{{ item2.PID }}</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="card">
-  <div class="card-body">
-    <div class="row">
-      <p>Tabla de procesos</p>
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">PID</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Uso de memoria</th>
-            <th scope="col">Tiempo llegada</th>
-            <th scope="col">Tiempo ráfaga</th>
-            <th scope="col">Retorno</th>
-            <th scope="col">Tiempo finzalización</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of table; let i = index">
-            <th scope="row">{{ i }}</th>
-            <td>{{ item.PID }}</td>
-            <td>{{ item.nombre_imagen }}</td>
-            <td>{{ item.uso_memoria }}</td>
-            <td>{{ item.tiempo_llegada }}</td>
-            <td>{{ item.tiempo_rafaga }}</td>
-            <td>{{ item.retorno }}</td>
-            <td>{{ item.tiempo_finalizacion }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+    </div></mat-tab
+  >
+</mat-tab-group>

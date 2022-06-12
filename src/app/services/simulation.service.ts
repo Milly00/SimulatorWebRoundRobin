@@ -16,15 +16,20 @@ export class SimulationService {
   tableProcess: any[] = [];
 
   TH: number = 4;
-  quamtum: number = 14;
+  quamtum: number = 24;
+  quamtumUser: number = 0;
   timeTotal: number = 0;
   numberProces: number = 0;
+  totalProces: number = 0;
 
   numberP = new BehaviorSubject(0);
 
   elementEsp !: any;
 
   pauseLoop = new BehaviorSubject<any>(0);
+
+  iterator = new BehaviorSubject<any>(0);
+
 
   pauseOn: boolean = false;
   counter: number = 0;
@@ -34,43 +39,39 @@ export class SimulationService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getProcess() {
+  getProcess(data: any[], th: number, quamtum: number) {
+
+    this.quamtum = quamtum;
+    this.quamtumUser = quamtum;
 
     let i = 0;
     data.forEach(element => {
       let newObj = {
-        PID: element.PID,
-        estado: element.estado,
-        nombre_imagen: element.nombre_imagen,
-        nombre_sesion: element.nombre_sesion,
-        nombre_usuario: element.nombre_usuario,
-        numero_sesion: element.numero_sesion,
-        titulo_ventana: element.titulo_ventana,
-        tiempo_CPU: element.tiempo_CPU,
-        uso_memoria: element.uso_memoria,
-        tiempo_rafaga: this.TH * (element.nombre_imagen.length),
+        nombre_imagen: element.processName,
+        tiempo_rafaga: th * (element.processName.length),
         tiempo_llegada: i,
-        prioridad: 0,
+        prioridad: parseInt(element.priority),
+        id: element.id,
+        capture: element.capture,
       }
 
-      if (element.nombre_usuario.includes("SYSTEM") || element.nombre_usuario.includes("N/D")) {
-        newObj["prioridad"] = 1;
-      } else {
-        newObj["prioridad"] = 0;
-      }
 
       i++;
 
       this.timeTotal = this.timeTotal + newObj.tiempo_rafaga;
       this.pushReady(newObj);
-      // this.pushTable(newObj, newObj.tiempo_rafaga);
-
-
     });
 
     this.numberProces = i;
 
+    this.totalProces = i;
     this.numberP.next(i);
+
+    console.log(this.timeTotal);
+
+    this.timeTotal = 500;
+
+
 
   }
 
@@ -83,21 +84,18 @@ export class SimulationService {
    * @param element 
    */
   getQuamtum(element: any) {
-    console.log("TIEMPO RAFAGA", element.tiempo_rafaga);
 
-    if (element.prioridad === 1) {
-      this.quamtum = element.tiempo_rafaga;
+    if (element.tiempo_rafaga >= 0) {
 
-    } else {
-      console.log(element.prioridad, this.quamtum);
+      if (element.prioridad === 1) {
+        this.quamtum = element.tiempo_rafaga;
+
+      }
 
       if (element.prioridad === 0) {
-
-        if (element.tiempo_rafaga < this.quamtum) {
-          this.quamtum = 14;
-
-        } if (element.tiempo_rafaga > this.quamtum) {
-          this.quamtum = 14;
+        this.quamtum = this.quamtumUser;
+        if (element.tiempo_rafaga > this.quamtum) {
+          this.quamtum = this.quamtumUser;
 
         } else {
 
@@ -106,15 +104,13 @@ export class SimulationService {
         }
       }
 
-
     }
+
   }
 
 
   getCounter(n: number) {
     this.counter = n;
-    //console.log(this.counter);
-
   }
   /**
    * Método donde hacemos los cambios de un array a otro
@@ -172,27 +168,25 @@ export class SimulationService {
       //Vamos disminuyendo las iteraciones
       i++;
 
+      this.iterator.next(contEx);
       contEx--;
 
       this.getCounter(contEx);
 
 
-      if (this.timeTotal === 0) {
+      if (this.totalProces === this.processEnd.length) {
         this.stopLoop(x);
       }
 
       this.pauseLoop.next(x);
 
+
       if (this.processReady.length <= 0 && this.processKeep.length <= 0 && this.processExecution.length > 0) {
-        //console.log("Terminamos");
-        //console.log(this.processExecution);
         this.pushFinalizado(this.processExecution.shift());
         this.stopLoop(x);
-
-
       }
 
-      this.timeTotal = this.timeTotal - 1;
+
 
     }, 100);
 
@@ -251,13 +245,12 @@ export class SimulationService {
   pushReady(element: any) {
 
     const objEx = {
-      PID: element.PID,
-      estado: element.estado,
       nombre_imagen: element.nombre_imagen,
-      uso_memoria: element.uso_memoria,
       tiempo_rafaga: element.tiempo_rafaga,
       tiempo_llegada: element.tiempo_llegada,
       prioridad: element.prioridad,
+      id: element.id,
+      capture: element.capture,
     }
 
     this.processReady.push(objEx);
@@ -268,21 +261,20 @@ export class SimulationService {
   pushTable(element: any, rafaga: number) {
     let procesoAnterior;
     let finalizacionAnt = 0;
-    //console.log(this.processTable.length);
 
     if (this.processTable.length > 0) {
       procesoAnterior = this.processTable[this.processTable.length - 1];
 
     }
     const newObj = {
-      PID: element.PID,
-      estado: element.estado,
+      //PID: element.PID,
       nombre_imagen: element.nombre_imagen,
-      uso_memoria: element.uso_memoria,
       tiempo_rafaga: element.tiempo_rafaga,
       tiempo_llegada: element.tiempo_llegada,
       tiempo_finalizacion: 0,
-      retorno: 0
+      retorno: 0,
+      id: element.id,
+      capture: element.capture,
     }
 
     if (this.processTable.length <= 0) {
@@ -291,14 +283,8 @@ export class SimulationService {
     }
 
     if (typeof this.processTable === 'object' && procesoAnterior !== undefined) {
-      //console.log(procesoAnterior);
-
       finalizacionAnt = procesoAnterior.tiempo_finalizacion
     }
-
-    //console.log(rafaga + finalizacionAnt);
-
-    //console.log(rafaga);
 
     newObj["tiempo_finalizacion"] = rafaga + finalizacionAnt;
     newObj["retorno"] = newObj.tiempo_finalizacion - newObj.tiempo_llegada;
@@ -308,11 +294,9 @@ export class SimulationService {
     }
 
     this.processTable.push(newObj);
-
-
-    console.log(this.processTable);
-
   }
+
+
   /**
    * Metodo para llenar el array de los procesos en ejecución
    * @param element 
@@ -320,38 +304,53 @@ export class SimulationService {
    */
   pushExecution(element: any, cont?: number) {
 
-    const objEx = {
-      PID: element.PID,
-      estado: element.estado,
-      nombre_imagen: element.nombre_imagen,
-      uso_memoria: element.uso_memoria,
-      tiempo_rafaga: element.tiempo_rafaga - this.quamtum,
-      tiempo_llegada: element.tiempo_llegada,
-      prioridad: element.prioridad
+    let time_rafaga = 0;//Var local para guardar el tiempo de rafaga
+    time_rafaga = element.tiempo_rafaga;
+
+    let obEx = {};
+
+    /**
+     * Nos aseguramos de que la rafaga no vaya a ser negativa
+     */
+    if (time_rafaga >= this.quamtum) {
+      obEx = {
+        nombre_imagen: element.nombre_imagen,
+        tiempo_rafaga: element.tiempo_rafaga - this.quamtum,
+        tiempo_llegada: element.tiempo_llegada,
+        prioridad: element.prioridad,
+        id: element.id,
+        capture: element.capture,
+      }
+
+    } else {
+      obEx = {
+        nombre_imagen: element.nombre_imagen,
+        tiempo_rafaga: element.tiempo_rafaga,
+        tiempo_llegada: element.tiempo_llegada,
+        prioridad: element.prioridad,
+        id: element.id,
+        capture: element.capture,
+      }
     }
 
-    const objTable = {
-      PID: element.PID,
-      estado: element.estado,
-      nombre_imagen: element.nombre_imagen,
-      uso_memoria: element.uso_memoria,
-      tiempo_rafaga: element.tiempo_rafaga,
-      tiempo_llegada: element.tiempo_llegada,
-      prioridad: element.prioridad
-    }
 
-    //console.log(objEx);
 
-    let rafaga = 0;
 
+
+    let rafaga = 0;//Variable que se utiliza para hacer los calculos en la tabla 
+
+    /** */
     if (element.prioridad === 1) {
       rafaga = element.tiempo_rafaga
     } else {
       rafaga = this.quamtum
     }
-    this.pushTable(objTable, rafaga);
 
-    this.processExecution.push(objEx);
+
+    this.pushTable(element, rafaga);
+
+
+    this.processExecution.push(obEx);
 
     //Si el contador de las ietraciones es igual a nuestro quamtum
     //Quiere decir que ya termino el primer proceso en ejecución por lo tanto
@@ -361,35 +360,30 @@ export class SimulationService {
 
 
     if (cont === 0) {
-      //console.log("YES");
       const data = this.processExecution.shift(); //---> El 1er elto de ejecución lo pasamos a espera
 
       //Si el tiempo de rafaga es menor al quamtum, pasamos este proceso a finalizado
-      //console.log("RAFAGA " + data.tiempo_rafaga, "QUAMTUM" + this.quamtum);
-
-
       if (data.tiempo_rafaga > this.quamtum) {
-        //console.log("ESPERA");
 
         //Si no pasamos el proceso nuevamente a espera
         this.pushEspera(data);
-      } else {
+      }
+
+      if (data.tiempo_rafaga <= this.quamtum) {
 
         //Si el proceso su tiempo es 0, quiere decir que termino
         if (data.tiempo_rafaga === 0) {
           this.pushFinalizado(data);
-          console.log(element.tiempo_rafaga);
 
-
+          this.numberProces = this.numberProces - 1;
+          this.numberP.next(this.numberProces);
 
         } else {
+
           //Si no, aún le falta un poco de tiempo para finalizar
           this.pushEspera(data);
         }
-        //console.log(this.numberProces);
         //Disminuimos el número de procesos a ejecutar
-        this.numberProces = this.numberProces - 1;
-        this.numberP.next(this.numberProces);
       }
     }
 
@@ -403,24 +397,19 @@ export class SimulationService {
    */
   pushEspera(element: any) {
     const objEx = {
-      PID: element.PID,
-      estado: element.estado,
       nombre_imagen: element.nombre_imagen,
-      uso_memoria: element.uso_memoria,
       tiempo_rafaga: element.tiempo_rafaga,
       tiempo_llegada: element.tiempo_llegada,
-      prioridad: element.prioridad
+      prioridad: element.prioridad,
+      id: element.id,
+      capture: element.capture,
 
     }
 
     this.processKeep.push(objEx);
 
 
-    //console.log(this.processKeep.length, this.numberProces - 1);
-
-
     this.numberP.subscribe(num => {
-
       //Si el tamaño de nuestro array de espera es mayor al tamañao del 
       //número de procesos que aún nos faltan por finalizar, pasamos los
       //datos a listos
@@ -432,7 +421,6 @@ export class SimulationService {
       }
     })
 
-    //console.log("En espera", this.processKeep);
   }
   /**
    * Metodo para llenar el array de los procesos finalizados
@@ -440,13 +428,12 @@ export class SimulationService {
    */
   pushFinalizado(element: any) {
     const objEx = {
-      PID: element.PID,
-      estado: element.estado,
       nombre_imagen: element.nombre_imagen,
-      uso_memoria: element.uso_memoria,
       tiempo_rafaga: element.tiempo_rafaga,
       tiempo_llegada: element.tiempo_llegada,
-      prioridad: element.prioridad
+      prioridad: element.prioridad,
+      id: element.id,
+      capture: element.capture,
 
     }
     this.processEnd.push(objEx);
