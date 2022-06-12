@@ -119,11 +119,7 @@ export class RoundRobinProcessComponent implements OnInit {
     let espera: Initial[] = [];
     let i = 0;
     let interval = setInterval(() => {
-
-
-
       let dele = this.listos.shift();
-      let rfc = this.listos.map(item => item.tr).reduce((prev, curr) => prev + curr, 0);
       this.ejecucion.process = dele?.process + "";
       this.ejecucion.tr = Number(dele?.tr)
 
