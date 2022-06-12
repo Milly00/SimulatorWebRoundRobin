@@ -1,43 +1,17 @@
 <div class="card">
-  <div class="card-body">
-    <div class="row">
-      <p>Tabla de procesos</p>
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">PID</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Nombre sesión</th>
-            <th scope="col">Tiempo CPU</th>
-            <th scope="col">Tiempo Ráfaga</th>
-
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">2</th>
-            <td></td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<div class="card">
   <div class="row">
     <div class="col">
-      <button class="btn btn-success" (click)="getList()">
-        Mostar procesos
+      <button class="btn btn-success" (click)="getList()">Iniciar</button>
+    </div>
+
+    <div class="col">
+      <button (click)="showTable()" class="btn btn-info">
+        Mostrar tabla de procesos
       </button>
     </div>
 
     <div class="col">
-      <button class="btn btn-danger">Detener</button>
+      <button (click)="pause()" class="btn btn-danger">Detener</button>
     </div>
   </div>
 
@@ -69,6 +43,41 @@
       <div *ngFor="let item2 of End">
         <p>{{ item2.PID }}</p>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <p>Tabla de procesos</p>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">PID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Uso de memoria</th>
+            <th scope="col">Tiempo llegada</th>
+            <th scope="col">Tiempo ráfaga</th>
+            <th scope="col">Retorno</th>
+            <th scope="col">Tiempo finzalización</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of table; let i = index">
+            <th scope="row">{{ i }}</th>
+            <td>{{ item.PID }}</td>
+            <td>{{ item.nombre_imagen }}</td>
+            <td>{{ item.uso_memoria }}</td>
+            <td>{{ item.tiempo_llegada }}</td>
+            <td>{{ item.tiempo_rafaga }}</td>
+            <td>{{ item.retorno }}</td>
+            <td>{{ item.tiempo_finalizacion }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
