@@ -1,3 +1,7 @@
+<div class="row">
+  <p class="text-center fs-3">Algoritmo de Planificación Round Robin</p>
+</div>
+
 <div class="card">
   <div class="card-body">
     <form>
@@ -10,7 +14,7 @@
                 *ngFor="let i of options"
                 [value]="i.value"
                 (onSelectionChange)="getValue($event)"
-              > 
+              >
                 {{ i.value }}
               </mat-option>
             </mat-select>
@@ -78,67 +82,67 @@
       </div>
 
       <div class="row">
-
         <p class="text-center fs-3">Esquema Visualización</p>
         <p class="font-weight-normal lead fs-6">Listos</p>
 
-
-        <div class="row gx-5 align-items-start ">
-      
-          <div class="col p-3 border text-white bg-success bg-gradient " *ngFor="let item of ready">
-            <p class="text-white text-center ">Proceso: {{ item.id }} </p>
+        <div class="row gx-5 align-items-start">
+          <div
+            class="col p-3 border text-white bg-success bg-gradient"
+            *ngFor="let item of ready"
+          >
+            <p class="text-white text-center">Proceso: {{ item.id }}</p>
             <!--<p>PID: {{ item.PID }}</p>-->
-            <p>Nombre: {{item.nombre_imagen}}</p>
+            <p>Nombre: {{ item.nombre_imagen }}</p>
             <p>Quamtum: {{ item.tiempo_rafaga }}</p>
           </div>
-          
         </div>
-
-
 
         <p class="font-weight-normal lead fs-6">Espera</p>
 
         <div class="row gx-5 align-items-start">
-          
-          <div class="col p-3 border bg-success p-2 text-white bg-opacity-75 " *ngFor="let item1 of keep">
-            <p class="text-white text-center ">Proceso: {{ item1.id }}</p>
-          <!--  <p>PID: {{ item1.PID }}</p>-->
-            <p>Nombre: {{item1.nombre_imagen}}</p>
+          <div
+            class="col p-3 border bg-success p-2 text-white bg-opacity-75"
+            *ngFor="let item1 of keep"
+          >
+            <p class="text-white text-center">Proceso: {{ item1.id }}</p>
+            <!--  <p>PID: {{ item1.PID }}</p>-->
+            <p>Nombre: {{ item1.nombre_imagen }}</p>
             <p>Quamtum: {{ item1.tiempo_rafaga }}</p>
           </div>
-          
         </div>
-
-
 
         <p class="font-weight-normal lead fs-6">Ejecución</p>
 
         <div class="row gx-5 align-items-start">
-          
-          <div class="col p-3 border p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-end" *ngFor="let item2 of Execution">
-            <p class=" text-center ">Proceso: {{ item2.id }}</p>
+          <div
+            class="col p-3 border p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-end"
+            *ngFor="let item2 of Execution"
+          >
+            <p class="text-center">Proceso: {{ item2.id }}</p>
             <!--<p>PID: {{ item2.PID }}</p>-->
-            <p>Nombre: {{item2.nombre_imagen}}</p>
-            <p>Quamtum: {{ item2.tiempo_rafaga }}</p>
+            <p>Nombre: {{ item2.nombre_imagen }}</p>
+            <p>Quamtum: {{ iterator }}</p>
+            <mat-progress-bar
+              mode="determinate"
+              [value]="iterator"
+              color="accent"
+            ></mat-progress-bar>
           </div>
-          
         </div>
-
 
         <p class="font-weight-normal lead fs-6">Terminado</p>
 
-
-       <div class="row gx-5 align-items-start">
-      
-        <div class="col p-3 border text-white bg-danger bg-gradient" *ngFor="let item2 of End">
-          <p class="text-white text-center ">Proceso: {{ item2.id }}</p>
-          <!--<p>PID: {{ item2.PID }}</p>-->
-          <p>Nombre: {{item2.nombre_imagen}}</p>
-          <p>Quamtum: {{ item2.tiempo_rafaga }} </p>
+        <div class="row gx-5 align-items-start">
+          <div
+            class="col p-3 border text-white bg-danger bg-gradient"
+            *ngFor="let item2 of End"
+          >
+            <p class="text-white text-center">Proceso: {{ item2.id }}</p>
+            <!--<p>PID: {{ item2.PID }}</p>-->
+            <p>Nombre: {{ item2.nombre_imagen }}</p>
+            <p>Quamtum: {{ item2.tiempo_rafaga }}</p>
+          </div>
         </div>
-      
-      </div>
-
       </div>
     </div></mat-tab
   >

@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -18,7 +19,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   imports: [
     CommonModule,
     ViewsRoutingModule, MatSelectModule, ReactiveFormsModule, FormsModule, MatInputModule,
-    MatTabsModule, MatDialogModule, MatSnackBarModule
+    MatTabsModule, MatDialogModule, MatSnackBarModule, MatProgressBarModule
   ]
 })
 export class ViewsModule { }
